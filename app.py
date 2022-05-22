@@ -1,6 +1,6 @@
 import os
 import datetime
-from flask import Flask, render_template, request
+from flask import Flask, redirect, render_template, request, url_for
 from pymongo import MongoClient
 from dotenv import load_dotenv
 
@@ -18,6 +18,7 @@ def create_app():
             entry_content = request.form.get("content")
             formatted_date =  datetime.datetime.today().strftime("%Y-%m-%d")
             app.db.entries.insert_one({"content": entry_content, "date": formatted_date})
+            return redirect(url_for('home'))
         
         entries_with_date = [
             (
